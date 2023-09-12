@@ -37,10 +37,10 @@ email, authentication_status, username = Authenticator.login(':green[Login]', 'm
 app_state = st.experimental_get_query_params()  
 def open_support_ticket():
     email_link = "https://appgit-8oduf5nlupbrtnl43xcrul.streamlit.app/table"
-    webbrowser.open(email_link,new=0)
+    webbrowser.open(email_link,new=2)
     # st.markdown("http://localhost:8501/", unsafe_allow_html=True)
 st.button("Contact us!", on_click=open_support_ticket)
-
+st.markdown(""" <a href="https://appgit-8oduf5nlupbrtnl43xcrul.streamlit.app/table"><button> go to table</button></a> """ , unsafe_allow_html=True)
 info, info1 = st.columns(2)
 
 if "my_saved_result" not in app_state:
