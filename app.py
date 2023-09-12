@@ -36,7 +36,7 @@ email, authentication_status, username = Authenticator.login(':green[Login]', 'm
 
 app_state = st.experimental_get_query_params()  
 def open_support_ticket():
-    email_link = "http://localhost:8501/table"
+    email_link = "https://appgit-8oduf5nlupbrtnl43xcrul.streamlit.app/table"
     webbrowser.open(email_link,new=0)
     # st.markdown("http://localhost:8501/", unsafe_allow_html=True)
 st.button("Contact us!", on_click=open_support_ticket)
