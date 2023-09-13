@@ -22,7 +22,7 @@ def table():
     email, authentication_status, username = Authenticator.login(':green[Login]', 'main')
     print(email)
     print(username)
-    # st.markdown("""<a href="http://localhost:8501/singup"   target = "_self">create acount</a> """ , unsafe_allow_html=True)
+    st.markdown("""<a href="http://localhost:8501/singup"   target = "_self">create acount</a> """ , unsafe_allow_html=True)
     st.markdown("""<a href="https://emailverify.streamlit.app/singup"   target = "_self">create acount</a> """ , unsafe_allow_html=True)
     # sldf = Authenticator.register_user("sign_up","main",preauthorization=False)
     # app_state = st.experimental_get_query_params() 
@@ -105,7 +105,7 @@ def table():
         )
         payment =st.button("hi")
         if payment:
-            update_user(email , 2)
+            update_user(email , {"payment" : 10})
         # if "username" not in dic:
         #     if username:
         #         if username in usernames:

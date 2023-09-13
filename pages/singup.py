@@ -9,7 +9,7 @@ no_sidebar_style = """
 st.markdown(no_sidebar_style, unsafe_allow_html=True)
 sign_up()
 
-# st.markdown("""<a href="http://localhost:8501/table"   target = "_self">login</a> """ , unsafe_allow_html=True)
+st.markdown("""<a href="http://localhost:8501/table"   target = "_self">login</a> """ , unsafe_allow_html=True)
 st.markdown("""<a href="https://emailverify.streamlit.app/table"   target = "_self">login</a> """ , unsafe_allow_html=True)
 # from database import sign_up, fetch_users ,update_user
 # from table import u

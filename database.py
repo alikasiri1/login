@@ -31,7 +31,7 @@ def insert_user(email, username, password):
 
     return db.put({'key': email, 'username': username, 'password': password, 'date_joined': date_joined , 'payment':0})
 
-def update_user(email , payment):
+def update_user2(email , payment):
     try:
         users = db.fetch()
     except:
@@ -53,7 +53,7 @@ def update_user(email , payment):
     # return db.update( updates= dic, key= email)
 
 # @st.cache_resource
-@st.cache(allow_output_mutation=True)
+# @st.cache(allow_output_mutation=True)
 def fetch_users():
     """
     Fetch Users
@@ -84,9 +84,12 @@ def get_usernames():
     users = db.fetch()
     usernames = []
     for user in users.items:
-        usernames.append(user['key'])
+        usernames.append(user['username'])
     return usernames
 
+def update_user(username, updates):
+    """If the item is updated, returns None. Otherwise, an exception is raised"""
+    return db.update(updates, username)
 
 def validate_email(email):
     """
@@ -132,7 +135,6 @@ def sign_up():
         with btn3:
             sing = st.form_submit_button('Sign Up')
 
-
     if sing:
         with st.spinner("verifying ..."):
             if email:
@@ -158,9 +160,9 @@ def sign_up():
                                             hashed_password = stauth.Hasher([password2]).generate()
                                             insert_user(email, username, hashed_password[0])
                                             # signup = True
-                                            
                                             st.success('Account created successfully!!')
                                             st.balloons()
+
                                         else:
                                             st.warning('Passwords Do Not Match')
                                     else:
