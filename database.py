@@ -49,7 +49,7 @@ def update_user(email , payment):
 
     # return db.update( updates= dic, key= email)
 
-@st.cache_resource
+# @st.cache_resource
 def fetch_users():
     """
     Fetch Users
@@ -59,7 +59,7 @@ def fetch_users():
     return users.items
 
 # print(fetch_users())
-@st.cache_resource
+# @st.cache_resource
 def get_user_emails():
     """
     Fetch User Emails
@@ -71,7 +71,7 @@ def get_user_emails():
         emails.append(user['key'])
     return emails
 
-@st.cache_resource
+# @st.cache_resource
 def get_usernames():
     """
     Fetch Usernames
