@@ -5,9 +5,11 @@ import streamlit_authenticator as stauth
 import datetime
 import re
 from deta import Deta
-
-
-
+import webbrowser
+import streamlit.components.v1 as com
+from verify_email import verify_email
+import nest_asyncio
+import asyncio
 # singup = False
 
 # def singup_true(boo):
@@ -87,6 +89,9 @@ def validate_username(username):
     if re.match(pattern, username):
         return True
     return False
+def verify_em(email):
+    nest_asyncio.apply()
+    return verify_email(email)
 
 # print(singup)
 def sign_up():
@@ -98,45 +103,99 @@ def sign_up():
         username = st.text_input(':blue[Username]', placeholder='Enter Your Username')
         password1 = st.text_input(':blue[Password]', placeholder='Enter Your Password', type='password')
         password2 = st.text_input(':blue[Confirm Password]', placeholder='Confirm Your Password', type='password')
-
-        if email:
-            if validate_email(email):
-                if email not in get_user_emails():
-                    if validate_username(username):
-                        if username not in get_usernames():
-                            if len(username) >= 2:
-                                if len(password1) >= 6:
-                                    if password1 == password2:
-                                        # Add User to DB
-                                        hashed_password = stauth.Hasher([password2]).generate()
-                                        insert_user(email, username, hashed_password[0])
-                                        signup = True
-                                        
-                                        # st.success('Account created successfully!!')
-                                        # st.balloons()
-                                    else:
-                                        st.warning('Passwords Do Not Match')
-                                else:
-                                    st.warning('Password is too Short')
-                            else:
-                                st.warning('Username Too short')
-                        else:
-                            st.warning('Username Already Exists')
-
-                    else:
-                        st.warning('Invalid Username')
-                else:
-                    st.warning('Email Already exists!!')
-            else:
-                st.warning('Invalid Email')
-
         btn1, bt2, btn3, btn4, btn5 = st.columns(5)
 
         with btn3:
-            st.form_submit_button('Sign Up')
+            sing = st.form_submit_button('Sign Up')
+        if sing:
+            if email:
+                if validate_email(email):
+                    # print(verify_em("ksdl@gmail.com") , "email")
+                    # loop = asyncio.get_event_loop()
+
+                    # if loop.is_running():
+                    # exis = asyncio.create_task(verify_em(email))
+                    # else:
+                        # exis =loop.run_until_complete(verify_em())
+                    exis = verify_em(email)
+                    print(exis)
+                    if exis:
+                        if email not in get_user_emails():
+                            if validate_username(username):
+                                if username not in get_usernames():
+                                    if len(username) >= 2:
+                                        if len(password1) >= 6:
+                                            if password1 == password2:
+                                                # Add User to DB
+                                                hashed_password = stauth.Hasher([password2]).generate()
+                                                insert_user(email, username, hashed_password[0])
+                                                signup = True
+                                                
+                                                # st.success('Account created successfully!!')
+                                                # st.balloons()
+                                            else:
+                                                st.warning('Passwords Do Not Match')
+                                        else:
+                                            st.warning('Password is too Short')
+                                    else:
+                                        st.warning('Username Too short')
+                                else:
+                                    st.warning('Username Already Exists')
+
+                            else:
+                                st.warning('Invalid Username')
+                        else:
+                            st.warning('Email Already exists!!')
+                    else:
+                        st.warning("Email dos not exist")
+                else:
+                    st.warning('Invalid Email')
+
+
     if signup:
         sttt.empty()
         return True
+    
+
+def login():
+    users = fetch_users()
+    emails = []
+    usernames = []
+    passwords = []
+
+    for user in users:
+        emails.append(user['key'])
+        usernames.append(user['username'])
+        passwords.append(user['password'])
+    with st.form("login"):
+        st.subheader(":green[login]")
+        username = st.text_input(':blue[Username]', placeholder='Enter Your Username')
+        password = st.text_input(':blue[Password]', placeholder='Enter Your Password', type='password')
+        btn1, bt2, btn3, btn4, btn5 = st.columns(5)
+
+        with btn3:
+            bot = st.form_submit_button('login')
+        # with btn5:
+            # singup = st.form_submit_button("sing up")
+            # if singup:
+            #     singup()
+        if bot:
+            if username:
+                if password:
+                    for i in range(len(emails)):
+                        if username == usernames[i] and password == passwords[i]:
+                            print(username , password)
+
+                            return username
+                    st.error('Invalid Username or Password')
+                else:
+                    st.warning('Please enter Password')
+            else:
+                st.warning('Please enter Username ')
+
+
+
+
 # sign_up()
 # name = ["ali" , "mahamed"]
 

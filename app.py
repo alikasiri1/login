@@ -8,99 +8,117 @@
 
 import streamlit as st
 import streamlit_authenticator as stauth
-from database import sign_up, fetch_users
+from database import sign_up, fetch_users , login
 import streamlit.components.v1 as com
 import webbrowser
 
 # st.set_page_config(page_title='Streamlit',  initial_sidebar_state='collapsed')
-st.set_page_config(page_title="profesearch", page_icon='🐍', initial_sidebar_state="collapsed", menu_items=None)
+st.set_page_config(page_title="profesearch", page_icon='🐍', menu_items=None)#, initial_sidebar_state="collapsed"
+# st. markdown(""" <style> .css-vk3wp9.eczjsme11 { display: none; } </style> """, unsafe_allow_html=True)
+no_sidebar_style = """
+    <style>
+        div[data-testid="stSidebarNav"] {display: none;}
+    </style>
+    """
+st.markdown(no_sidebar_style, unsafe_allow_html=True)
+no_sidebar_style = """
+    <style>
+        section[data-testid="stSidebar"] {display: none;}
+    </style>
+"""
+st.markdown(no_sidebar_style, unsafe_allow_html=True)
 
-# # try:
-# users = fetch_users()
-# emails = []
-# usernames = []
-# passwords = []
+# try:
+ 
+# def open_support_ticket():
+#     email_link = "https://appgit-8oduf5nlupbrtnl43xcrul.streamlit.app/table"
+#     webbrowser.open(email_link,new=0)
+#     # st.markdown("http://localhost:8501/", unsafe_allow_html=True)
+# st.button("Contact us!", on_click=open_support_ticket)
 
-# for user in users:
-#     emails.append(user['key'])
-#     usernames.append(user['username'])
-#     passwords.append(user['password'])
+# st.markdown("""<a href="https://appgit-8oduf5nlupbrtnl43xcrul.streamlit.app/table"   target = "_self"><button class="css-7ym5gk ef3psqc11"> go to table</button></a> """ , unsafe_allow_html=True)
+# login()
 
-# credentials = {'usernames': {}}
-# for index in range(len(emails)):
-#     credentials['usernames'][usernames[index]] = {'name': emails[index], 'password': passwords[index]}
-
-# Authenticator = stauth.Authenticate(credentials, cookie_name='Streamlit', key='abcdef', cookie_expiry_days=4)
-    
-# email, authentication_status, username = Authenticator.login(':green[Login]', 'main')
-
-app_state = st.experimental_get_query_params()  
-def open_support_ticket():
-    email_link = "https://appgit-8oduf5nlupbrtnl43xcrul.streamlit.app/table"
-    webbrowser.open(email_link,new=0)
-    # st.markdown("http://localhost:8501/", unsafe_allow_html=True)
-st.button("Contact us!", on_click=open_support_ticket)
-st.markdown(""" <a href="https://appgit-8oduf5nlupbrtnl43xcrul.streamlit.app/table"><button> go to table</button></a> """ , unsafe_allow_html=True)
-# com.html("""<a href="print.html"  
-#     onclick="window.open('print.html',
-#                          'width=300,height=250'); 
-#               return false;"
-#  >Print</a>""" )
-st.subheader('This is the home page')
-st.markdown(
-                """
-                ---
-                Created with ❤️ by SnakeByte
-                   
-                """
-            )
-# info, info1 = st.columns(2)
-
-# if "my_saved_result" not in app_state:
-#     stt = st.empty()
-#     bb = stt.button("sing_up")
-
-#     if bb:
-#         st.experimental_set_query_params(my_saved_result=True)
-#         stt.empty()
-
-# if not authentication_status:
-#     if "my_saved_result" in app_state:
-#         if app_state["my_saved_result"][0]:
-#             don = sign_up()
-#             if don:
-#                 app_state.clear()
-#                 stt = st.empty()
-#                 bb = stt.button("sing_up")
-#                 st.success('Account created successfully!!')
-
-# if username:
-#     if username in usernames:
-#         if authentication_status:
-#             # let User see app
-#             app_state.clear()
-#             st.sidebar.subheader(f'Welcome {username}')
-#             Authenticator.logout('Log Out', 'sidebar')
-
-#             st.subheader('This is the home page')
-#             st.markdown(
+# st.subheader('This is the home page')
+# st.markdown(
 #                 """
 #                 ---
 #                 Created with ❤️ by SnakeByte
                    
 #                 """
 #             )
+w = st.button("write")
+if w:
+    st.warning("you must loging in")
+    st.markdown("""<a href="http://localhost:8501/table"   target = "_self"><button class="css-7ym5gk ef3psqc11"> login</button></a> """ , unsafe_allow_html=True)
+
+    # users = fetch_users()
+    # emails = []
+    # usernames = []
+    # passwords = []
+
+    # for user in users:
+    #     emails.append(user['key'])
+    #     usernames.append(user['username'])
+    #     passwords.append(user['password'])
+
+    # credentials = {'usernames': {}}
+    # for index in range(len(emails)):
+    #     credentials['usernames'][usernames[index]] = {'name': emails[index], 'password': passwords[index]}
+
+    # Authenticator = stauth.Authenticate(credentials, cookie_name='Streamlit', key='abcdef', cookie_expiry_days=4)
+        
+    # email, authentication_status, username = Authenticator.login(':green[Login]', 'main')
+
+    # app_state = st.experimental_get_query_params() 
+
+    # info, info1 = st.columns(2)
+
+    # if "my_saved_result" not in app_state:
+    #     stt = st.empty()
+    #     bb = stt.button("sing_up")
+
+    #     if bb:
+    #         st.experimental_set_query_params(my_saved_result=True)
+    #         stt.empty()
+
+    # if not authentication_status:
+    #     if "my_saved_result" in app_state:
+    #         if app_state["my_saved_result"][0]:
+    #             don = sign_up()
+    #             if don:
+    #                 app_state.clear()
+    #                 stt = st.empty()
+    #                 bb = stt.button("sing_up")
+    #                 st.success('Account created successfully!!')
+
+    # if username:
+    #     if username in usernames:
+    #         if authentication_status:
+    #             # let User see app
+    #             app_state.clear()
+    #             st.sidebar.subheader(f'Welcome {username}')
+    #             Authenticator.logout('Log Out', 'sidebar')
+
+    #             st.subheader('This is the home page')
+    #             st.markdown(
+    #                 """
+    #                 ---
+    #                 Created with ❤️ by SnakeByte
+                    
+    #                 """
+    #             )
 
 
-#         elif not authentication_status:
-#             with info:
-#                 st.error('Incorrect Password or username')
-#         else:
-#             with info:
-#                 st.warning('Please feed in your credentials')
-#     else:
-#         with info:
-#             st.warning('Username does not exist, Please Sign up')
+    #         elif not authentication_status:
+    #             with info:
+    #                 st.error('Incorrect Password or username')
+    #         else:
+    #             with info:
+    #                 st.warning('Please feed in your credentials')
+    #     else:
+    #         with info:
+    #             st.warning('Username does not exist, Please Sign up')
 
 
 # except:
