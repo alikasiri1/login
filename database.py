@@ -32,7 +32,10 @@ def insert_user(email, username, password):
     return db.put({'key': email, 'username': username, 'password': password, 'date_joined': date_joined , 'payment':0})
 
 def update_user(email , payment):
-    users = db.fetch()
+    try:
+        users = db.fetch()
+    except:
+        users = db.fetch()
     dic = {}
     for i in range(len(users.items)):
         if users.items[i]["key"] == email:
@@ -50,6 +53,7 @@ def update_user(email , payment):
     # return db.update( updates= dic, key= email)
 
 # @st.cache_resource
+@st.cache(allow_output_mutation=True)
 def fetch_users():
     """
     Fetch Users
