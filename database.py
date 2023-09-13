@@ -34,20 +34,22 @@ def insert_user(email, username, password):
 def update_user(email , payment):
     users = db.fetch()
     dic = {}
-    for i in range(len(users)):
-        if users[i]["key"] == email:
+    for i in range(len(users.items)):
+        if users.items[i]["key"] == email:
             dic["key"] = email
-            dic["username"] = users[i]["username"]
-            dic["password"] = users[i]["password"]
-            dic["date_joined"] = users[i]["date_joined"]
+            dic["username"] = users.items[i]["username"]
+            dic["password"] = users.items[i]["password"]
+            dic["date_joined"] = users.items[i]["date_joined"]
             dic["payment"] = payment
-            del users[i]
+            db.delete(email)
+            # del users.items[i]
             break
-    users.append(dic)
+    # users.items.append(dic)
+    return db.insert(dic)
 
-    return db.update(users)
+    # return db.update( updates= dic, key= email)
 
-@st.cache_data
+@st.cache_resource
 def fetch_users():
     """
     Fetch Users
@@ -57,7 +59,7 @@ def fetch_users():
     return users.items
 
 # print(fetch_users())
-@st.cache_data
+@st.cache_resource
 def get_user_emails():
     """
     Fetch User Emails
@@ -69,7 +71,7 @@ def get_user_emails():
         emails.append(user['key'])
     return emails
 
-@st.cache_data
+@st.cache_resource
 def get_usernames():
     """
     Fetch Usernames

@@ -20,7 +20,9 @@ def table():
     Authenticator = stauth.Authenticate(credentials , cookie_name='Streamlit', key='abcdef')#, cookie_name='Streamlit', key='abcdef', cookie_expiry_days=4
     
     email, authentication_status, username = Authenticator.login(':green[Login]', 'main')
-
+    print(email)
+    print(username)
+    
     # app_state = st.experimental_get_query_params() 
     # if 'login' not in st.session_state:
     #     st.session_state['login'] = False
@@ -82,7 +84,7 @@ def table():
                 )
                 payment =st.button("hi")
                 if payment:
-                    update_user(email , 1)
+                    update_user(email , 2)
 
             elif not authentication_status:
                 with info:
