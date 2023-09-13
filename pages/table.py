@@ -1,5 +1,5 @@
 import streamlit as st
-from database import sign_up, fetch_users
+from database import sign_up, fetch_users ,update_user
 import streamlit_authenticator as stauth
 st.set_page_config(page_title="table", page_icon='🐍', initial_sidebar_state="collapsed", menu_items=None)
 def table():
@@ -80,7 +80,9 @@ def table():
                     
                     """
                 )
-
+                payment =st.button("hi")
+                if payment:
+                    update_user(email , 1)
 
             elif not authentication_status:
                 with info:

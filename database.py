@@ -29,9 +29,25 @@ def insert_user(email, username, password):
     """
     date_joined = str(datetime.datetime.now())
 
-    return db.put({'key': email, 'username': username, 'password': password, 'date_joined': date_joined})
+    return db.put({'key': email, 'username': username, 'password': password, 'date_joined': date_joined , 'payment':0})
 
-# insert_user("akgh1382@gmail.com","mashdali","hdfkahj")
+def update_user(email , payment):
+    users = db.fetch()
+    dic = {}
+    for i in range(len(users)):
+        if users[i]["key"] == email:
+            dic["key"] = email
+            dic["username"] = users[i]["username"]
+            dic["password"] = users[i]["password"]
+            dic["date_joined"] = users[i]["date_joined"]
+            dic["payment"] = payment
+            del users[i]
+            break
+    users.append(dic)
+
+    return db.update(users)
+
+@st.cache_data
 def fetch_users():
     """
     Fetch Users
@@ -39,8 +55,9 @@ def fetch_users():
     """
     users = db.fetch()
     return users.items
-# print(fetch_users())
 
+# print(fetch_users())
+@st.cache_data
 def get_user_emails():
     """
     Fetch User Emails
@@ -52,7 +69,7 @@ def get_user_emails():
         emails.append(user['key'])
     return emails
 
-
+@st.cache_data
 def get_usernames():
     """
     Fetch Usernames
@@ -89,11 +106,12 @@ def validate_username(username):
     if re.match(pattern, username):
         return True
     return False
+
 def verify_em(email):
     nest_asyncio.apply()
     return verify_email(email)
 
-# print(singup)
+
 def sign_up():
     signup =False
     sttt = st.empty()
@@ -107,9 +125,12 @@ def sign_up():
 
         with btn3:
             sing = st.form_submit_button('Sign Up')
-        if sing:
+
+
+    if sing:
+        with st.spinner("verifying ..."):
             if email:
-                if validate_email(email):
+                # if validate_email(email):
                     # print(verify_em("ksdl@gmail.com") , "email")
                     # loop = asyncio.get_event_loop()
 
@@ -117,81 +138,81 @@ def sign_up():
                     # exis = asyncio.create_task(verify_em(email))
                     # else:
                         # exis =loop.run_until_complete(verify_em())
-                    exis = verify_em(email)
-                    print(exis)
-                    if exis:
-                        if email not in get_user_emails():
-                            if validate_username(username):
-                                if username not in get_usernames():
-                                    if len(username) >= 2:
-                                        if len(password1) >= 6:
-                                            if password1 == password2:
-                                                # Add User to DB
-                                                hashed_password = stauth.Hasher([password2]).generate()
-                                                insert_user(email, username, hashed_password[0])
-                                                signup = True
-                                                
-                                                # st.success('Account created successfully!!')
-                                                # st.balloons()
-                                            else:
-                                                st.warning('Passwords Do Not Match')
+                print(email)
+                exis = verify_em(email)
+                print(exis)
+                if exis:
+                    if email not in get_user_emails():
+                        if validate_username(username):
+                            if username not in get_usernames():
+                                if len(username) >= 2:
+                                    if len(password1) >= 6:
+                                        if password1 == password2:
+                                            # Add User to DB
+                                            hashed_password = stauth.Hasher([password2]).generate()
+                                            insert_user(email, username, hashed_password[0])
+                                            signup = True
+                                            
+                                            # st.success('Account created successfully!!')
+                                            # st.balloons()
                                         else:
-                                            st.warning('Password is too Short')
+                                            st.warning('Passwords Do Not Match')
                                     else:
-                                        st.warning('Username Too short')
+                                        st.warning('Password is too Short')
                                 else:
-                                    st.warning('Username Already Exists')
-
+                                    st.warning('Username Too short')
                             else:
-                                st.warning('Invalid Username')
+                                st.warning('Username Already Exists')
                         else:
-                            st.warning('Email Already exists!!')
+                            st.warning('Invalid Username')
                     else:
-                        st.warning("Email dos not exist")
+                        st.warning('Email Already exists!!')
                 else:
-                    st.warning('Invalid Email')
-
+                    st.warning("Email dos not exist")
+                # else:
+                #     st.warning('Invalid Email')
+            # st.experimental_rerun()
 
     if signup:
         sttt.empty()
         return True
     
 
-def login():
-    users = fetch_users()
-    emails = []
-    usernames = []
-    passwords = []
+# def login():
+#     users = fetch_users()
+#     emails = []
+#     usernames = []
+#     passwords = []
 
-    for user in users:
-        emails.append(user['key'])
-        usernames.append(user['username'])
-        passwords.append(user['password'])
-    with st.form("login"):
-        st.subheader(":green[login]")
-        username = st.text_input(':blue[Username]', placeholder='Enter Your Username')
-        password = st.text_input(':blue[Password]', placeholder='Enter Your Password', type='password')
-        btn1, bt2, btn3, btn4, btn5 = st.columns(5)
+#     for user in users:
+#         emails.append(user['key'])
+#         usernames.append(user['username'])
+#         passwords.append(user['password'])
+#     with st.form("login"):
+#         st.subheader(":green[login]")
+#         username = st.text_input(':blue[Username]', placeholder='Enter Your Username')
+#         password = st.text_input(':blue[Password]', placeholder='Enter Your Password', type='password')
+#         btn1, bt2, btn3, btn4, btn5 = st.columns(5)
 
-        with btn3:
-            bot = st.form_submit_button('login')
-        # with btn5:
-            # singup = st.form_submit_button("sing up")
-            # if singup:
-            #     singup()
-        if bot:
-            if username:
-                if password:
-                    for i in range(len(emails)):
-                        if username == usernames[i] and password == passwords[i]:
-                            print(username , password)
+#         with btn3:
+#             bot = st.form_submit_button('login')
+#         # with btn5:
+#             # singup = st.form_submit_button("sing up")
+#             # if singup:
+#             #     singup()
+#         if bot:
+#             if username:
+#                 if password:
+#                     for i in range(len(emails)):
+#                         if username == usernames[i] and password == passwords[i]:
+#                             print(username , password)
 
-                            return username
-                    st.error('Invalid Username or Password')
-                else:
-                    st.warning('Please enter Password')
-            else:
-                st.warning('Please enter Username ')
+#                             return username
+#                     st.error('Invalid Username or Password')
+#                 else:
+#                     st.warning('Please enter Password')
+#             else:
+#                 st.warning('Please enter Username ')
 
 
 

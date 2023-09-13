@@ -8,7 +8,7 @@
 
 import streamlit as st
 import streamlit_authenticator as stauth
-from database import sign_up, fetch_users , login
+from database import sign_up, fetch_users 
 import streamlit.components.v1 as com
 import webbrowser
 
@@ -50,8 +50,8 @@ st.markdown(no_sidebar_style, unsafe_allow_html=True)
 w = st.button("write")
 if w:
     st.warning("you must loging in")
-    # st.markdown("""<a href="http://localhost:8501/table"   target = "_self"><button class="css-7ym5gk ef3psqc11"> login</button></a> """ , unsafe_allow_html=True)
-    st.markdown("""<a href="https://emailverify.streamlit.app/table"   target = "_self"><button class="css-7ym5gk ef3psqc11"> login</button></a> """ , unsafe_allow_html=True)
+    st.markdown("""<a href="http://localhost:8501/table"   target = "_self"><button class="css-7ym5gk ef3psqc11"> login</button></a> """ , unsafe_allow_html=True)
+    # st.markdown("""<a href="https://emailverify.streamlit.app/table"   target = "_self"><button class="css-7ym5gk ef3psqc11"> login</button></a> """ , unsafe_allow_html=True)
     # users = fetch_users()
     # emails = []
     # usernames = []
