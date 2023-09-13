@@ -115,9 +115,9 @@ def verify_em(email):
 
 
 def sign_up():
-    signup =False
-    sttt = st.empty()
-    with sttt.form(key='signup', clear_on_submit=True):
+    # signup =False
+    # sttt = st.empty()
+    with st.form(key='signup'): #, clear_on_submit=True
         st.subheader(':green[Sign Up]')
         email = st.text_input(':blue[Email]', placeholder='Enter Your Email')
         username = st.text_input(':blue[Username]', placeholder='Enter Your Username')
@@ -153,10 +153,10 @@ def sign_up():
                                             # Add User to DB
                                             hashed_password = stauth.Hasher([password2]).generate()
                                             insert_user(email, username, hashed_password[0])
-                                            signup = True
+                                            # signup = True
                                             
-                                            # st.success('Account created successfully!!')
-                                            # st.balloons()
+                                            st.success('Account created successfully!!')
+                                            st.balloons()
                                         else:
                                             st.warning('Passwords Do Not Match')
                                     else:
@@ -175,9 +175,9 @@ def sign_up():
                 #     st.warning('Invalid Email')
             # st.experimental_rerun()
 
-    if signup:
-        sttt.empty()
-        return True
+    # if signup:
+    #     sttt.empty()
+    #     return True
     
 
 # def login():
