@@ -1,5 +1,3 @@
-# import pickle
-# from pathlib import Path
 import streamlit as st
 import streamlit_authenticator as stauth
 import datetime
@@ -10,10 +8,7 @@ import streamlit.components.v1 as com
 from verify_email import verify_email
 import nest_asyncio
 import asyncio
-# singup = False
 
-# def singup_true(boo):
-#     singup = boo
 DATA_KEY =st.secrets["database_key"]
 deta = Deta(DATA_KEY)
 
@@ -91,6 +86,10 @@ def update_user(username, updates):
     """If the item is updated, returns None. Otherwise, an exception is raised"""
     return db.update(updates, username)
 
+def delete_user(username):
+    """Always returns None, even if the key does not exist"""
+    return db.delete(username)
+
 def validate_email(email):
     """
     Check Email Validity
@@ -122,8 +121,6 @@ def verify_em(email):
 
 
 def sign_up():
-    # signup =False
-    # sttt = st.empty()
     with st.form(key='signup'): #, clear_on_submit=True
         st.subheader(':green[Sign Up]')
         email = st.text_input(':blue[Email]', placeholder='Enter Your Email')
@@ -138,18 +135,8 @@ def sign_up():
     if sing:
         with st.spinner("verifying ..."):
             if email:
-                # if validate_email(email):
-                    # print(verify_em("ksdl@gmail.com") , "email")
-                    # loop = asyncio.get_event_loop()
-
-                    # if loop.is_running():
-                    # exis = asyncio.create_task(verify_em(email))
-                    # else:
-                        # exis =loop.run_until_complete(verify_em())
                 print(email)
-                exis = verify_em(email)
-                print(exis)
-                if exis:
+                if verify_em(email):
                     if email not in get_user_emails():
                         if validate_username(username):
                             if username not in get_usernames():
@@ -159,7 +146,6 @@ def sign_up():
                                             # Add User to DB
                                             hashed_password = stauth.Hasher([password2]).generate()
                                             insert_user(email, username, hashed_password[0])
-                                            # signup = True
                                             st.success('Account created successfully!!')
                                             st.balloons()
 
@@ -177,13 +163,7 @@ def sign_up():
                         st.warning('Email Already exists!!')
                 else:
                     st.warning("Email dos not exist")
-                # else:
-                #     st.warning('Invalid Email')
-            # st.experimental_rerun()
 
-    # if signup:
-    #     sttt.empty()
-    #     return True
     
 
 # def login():
@@ -224,16 +204,3 @@ def sign_up():
 
 
 
-
-# sign_up()
-# name = ["ali" , "mahamed"]
-
-# username = ["dfs" , "dfsfd"]
-
-# password = ["fldf" , "dkjhfkdh"]
-
-# hashed_password = stauth.Hasher(password).generate()
-
-# file_path = Path(__file__).parent / "hashed_pw.pkl"
-# with file_path.open("rb") as file:
-#     hashed_passwords = pickle.load(file)

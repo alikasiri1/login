@@ -1,6 +1,6 @@
 from database import sign_up
 import streamlit as st
-
+st.set_page_config(page_title="sing up", page_icon='🐍', menu_items=None)
 no_sidebar_style = """
     <style>
         section[data-testid="stSidebar"] {display: none;}
@@ -11,6 +11,7 @@ sign_up()
 
 st.markdown("""<a href="http://localhost:8501/table"   target = "_self">login</a> """ , unsafe_allow_html=True)
 st.markdown("""<a href="https://emailverify.streamlit.app/table"   target = "_self">login</a> """ , unsafe_allow_html=True)
+
 # from database import sign_up, fetch_users ,update_user
 # from table import u
 # st.sidebar.subheader(f'Welcome {username}')
